@@ -17,7 +17,8 @@ api = tweepy.API(auth)
 # Inherit a class from StreamListener
 class TweetStreamListener(tweepy.StreamListener):
     def on_status(self, status):
-        print(status.text)
+        if(status.text[:2] != 'RT'):
+            print(status.text)
 
 # Create an object of the above inherited class
 tweetStreamListener = TweetStreamListener()
