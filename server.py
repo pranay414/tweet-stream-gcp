@@ -1,20 +1,13 @@
 from flask import Flask
-import os, tweepy
+import os, tweepy, requests
 from dotenv import load_dotenv
-from google.cloud import language
-from google.cloud.language import enums
-from google.cloud.language import types
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
-from google.protobuf.json_format import MessageToJson
 
 
 # Initialise Flask app
 app = Flask(__name__)
-
-# Instantiate Google cloud NL client
-client = language.LanguageServiceClient()
 
 # Fetch the service account key JSON file contents
 cred = credentials.Certificate('keyfile.json')
@@ -25,32 +18,38 @@ root = db.reference()
 
 
 def send_to_nl_api(tweet):
-    # Text to analyse
-    document = types.Document(
-        content=tweet.text,
-        type=enums.Document.Type.PLAIN_TEXT
-    )
+    # Construct a request body
+    data = {
+        'document': {
+            'type': 'PLAIN_TEXT',
+            'content': tweet.text
+        },
+        'features': {
+            'extractSyntax': True,
+            'extractEntities': True,
+            'extractDocumentSentiment': True
+        }
+    }
 
-    # Detects the sentiment of the text
-    sentiment = MessageToJson(client.analyze_sentiment(document=document), preserving_proto_field_name=True)
-
-    # Find entities in the text
-    entities = MessageToJson(client.analyze_entities(document=document), preserving_proto_field_name=True)
-
-    # Get tokens in the text
-    tokens = MessageToJson(client.analyze_syntax(document=document), preserving_proto_field_name=True)
+    response = requests.post(url=os.getenv('GOOGLE_NL_API_ENDPOINT'), json=data)
+    if response.status_code == 200:
+        response = response.json()
+    else:
+        print('NL API Error!')
+        return
 
     id = tweet.id_str
     firebase_data = {
+        'id': tweet.id_str,
         'text': tweet.text,
         'user': tweet.user.screen_name,
         'user_time_zone': tweet.user.time_zone,
         'user_followers_count': tweet.user.followers_count,
-        'hashtags': tweet.entities.get('hashtags'),
-        'tokens': tokens,
-        'score': sentiment,
-        'magnitude': sentiment,
-        'entities': entities
+        'hashtags': tweet.entities['hashtags'],
+        'tokens': response['tokens'],
+        'score': response['documentSentiment']['score'],
+        'magnitude': response['documentSentiment']['magnitude'],
+        'entities': response['entities']
     }
 
     save_to_firebase(id, firebase_data)
