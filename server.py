@@ -1,5 +1,5 @@
-from flask import Flask
-import os, tweepy, requests
+from flask import Flask, render_template
+import os, tweepy, requests, threading
 from dotenv import load_dotenv
 import firebase_admin
 from firebase_admin import credentials
@@ -33,6 +33,7 @@ def send_to_nl_api(tweet):
 
     response = requests.post(url=os.getenv('GOOGLE_NL_API_ENDPOINT'), json=data)
     if response.status_code == 200:
+        print(response)
         response = response.json()
     else:
         print('NL API Error!')
@@ -76,16 +77,24 @@ api = tweepy.API(auth)
 class TweetStreamListener(tweepy.StreamListener):
     def on_status(self, status):
         if(status.text[:2] != 'RT'):
-            #pass
-            send_to_nl_api(status)
+            pass
+            #send_to_nl_api(status)
 
-# Create an object of the above inherited class
-tweetStreamListener = TweetStreamListener()
-tweetStream = tweepy.Stream(auth=api.auth, listener=tweetStreamListener)
+# Create a TweepyThread to run stream tweets in a non-blocking manner
+class TweepyThread(threading.Thread):
+    def __init__(self):
+        threading.Thread.__init__(self)
 
-# Add filter for tweets
-tweetStream.filter(track=['coronavirus'])
+    def run(self):
+        # Create an object of the above inherited class
+        tweetStreamListener = TweetStreamListener()
+        tweetStream = tweepy.Stream(auth=api.auth, listener=tweetStreamListener)
+
+        # Add filter for tweets
+        tweetStream.filter(track=['coronavirus'])
 
 @app.route('/')
 def hello_world():
-    return "Hello World!"
+    t = TweepyThread()
+    t.start()
+    return render_template('index.html')
