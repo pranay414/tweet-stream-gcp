@@ -3,3 +3,6 @@ I wish to explore the different components of Google Cloud Platform through this
 
 ## Design of the system
 ![Design](/.github/assets/design.jpg)
+
+## Tweet Dashboard
+![Demo](/.github/assets/demo.png)

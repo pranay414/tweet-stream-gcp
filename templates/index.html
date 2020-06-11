@@ -5,20 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Twitter NLP Analysis</title>
 
-      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.light_blue-yellow.min.css" />
-  <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.light_blue-yellow.min.css" />
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <link rel="stylesheet" href="../static/main.css">
-    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-app.js"></script>
-    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
-    <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-analytics.js"></script>
-    <!-- Add Firebase products that you want to use -->
-    <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-database.js"></script>
+
     <script id="twitter-wjs" type="text/javascript" async defer src="https://platform.twitter.com/widgets.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
     <script src="../static/main.js"></script>
     <style media="screen"></style>
   </head>
@@ -40,14 +37,10 @@
 
           <div class="mdl-grid">
             <div class="mdl-cell mdl-cell--1-col">
-              <p class="pos">Nouns</p>
-              <p class="pos">Verbs</p>
-              <p class="pos">Adjectives</p>
+              <p class="pos">Tweet text</p>
             </div>
             <div class="mdl-cell mdl-cell--11-col">
-              <p class="nouns"></p>
-              <p class="verbs"></p>
-              <p class="adjectives"></p>
+              <p class="tweet-text"></p>
             </div>
           </div>
 
@@ -63,16 +56,6 @@
             </div>
           </div>
 
-          <div class="mdl-grid">
-            <div class="mdl-cell mdl-cell--4-col">
-              <div class="chart-container"><canvas id="adjChart" width="500" height="500"></canvas></div>
-            </div>
-          <div class="mdl-cell mdl-cell--2-col">
-            </div>
-           <div class="mdl-cell mdl-cell--4-col">
-              <div class="chart-container"><canvas id="htChart" width="500" height="500"></canvas></div>
-            </div>
-          </div>
       </div>
     </main>
   </body>

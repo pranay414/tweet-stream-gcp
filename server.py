@@ -76,9 +76,9 @@ api = tweepy.API(auth)
 # Inherit a class from StreamListener
 class TweetStreamListener(tweepy.StreamListener):
     def on_status(self, status):
+        # Exclude retweets
         if(status.text[:2] != 'RT'):
-            pass
-            #send_to_nl_api(status)
+            send_to_nl_api(status)
 
 # Create a TweepyThread to run stream tweets in a non-blocking manner
 class TweepyThread(threading.Thread):
