@@ -9,20 +9,17 @@
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.light_blue-yellow.min.css" />
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <link rel="stylesheet" href="../static/main.css">
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/4.1.1/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/4.1.1/firebase-auth.js"></script>
-    <script defer src="/__/firebase/4.1.1/firebase-database.js"></script>
-    <script defer src="/__/firebase/4.1.1/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/4.1.1/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-app.js"></script>
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-analytics.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/7.15.0/firebase-auth.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"></script>
     <script id="twitter-wjs" type="text/javascript" async defer src="https://platform.twitter.com/widgets.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
-    <script src="main.js"></script>
+    <script src="../static/main.js"></script>
     <style media="screen"></style>
   </head>
   <body>
@@ -59,9 +56,9 @@
               <p class="title"><strong>Latest tweet sentiment</strong></p>
             </div>
             <div class="mdl-cell mdl-cell--10-col">
-              <img src="emoji-sad.png" id="android-emoji-happy"/>
+              <img src="../static/emoji-happy.png" id="android-emoji-happy"/>
               <div id="sentiment-plot"></div>
-             <img src="emoji-happy.png" id="android-emoji-sad"/>
+             <img src="../static/emoji-sad.png" id="android-emoji-sad"/>
               <div id="current-sentiment-latest-val"></div>
             </div>
           </div>
