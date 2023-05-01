@@ -1,5 +1,5 @@
 tweepy==3.8.0
-flask==1.1.2
+flask==2.3.2
 python-dotenv==0.13.0
 google-api-core==1.17.0
 google-api-python-client==1.8.2
